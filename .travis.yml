@@ -26,6 +26,7 @@ before_script:
   - mix do ecto.create, ecto.migrate
 
 script:
+  - mix hex.outdated
   - mix credo --strict
   - mix coveralls.json
 
