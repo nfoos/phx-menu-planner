@@ -51,7 +51,8 @@ defmodule MenuPlanner.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test},
-      {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
+      {:logger_json, "~> 3.0", only: [:prod]}
     ]
   end
 

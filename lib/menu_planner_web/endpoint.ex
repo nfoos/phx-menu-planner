@@ -32,6 +32,10 @@ defmodule MenuPlannerWeb.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  if LoggerJSON in Application.get_env(:logger, :backends) do
+    plug LoggerJSON.Plug
+  end
+
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
