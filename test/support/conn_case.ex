@@ -22,6 +22,7 @@ defmodule MenuPlannerWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+      import MenuPlanner.Factory
       alias MenuPlannerWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
@@ -36,6 +37,16 @@ defmodule MenuPlannerWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(MenuPlanner.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    conn = Phoenix.ConnTest.build_conn()
+
+    conn =
+      cond do
+        tags[:authenticated_user] ->
+          Plug.Conn.assign(conn, :current_user, MenuPlanner.Factory.insert(:user))
+        true ->
+          conn
+      end
+
+    {:ok, conn: conn}
   end
 end

@@ -7,6 +7,7 @@ defmodule MenuPlannerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug MenuPlannerWeb.Auth
   end
 
   pipeline :api do
@@ -17,6 +18,11 @@ defmodule MenuPlannerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
+
     resources "/users", UserController, except: [:delete]
   end
 
