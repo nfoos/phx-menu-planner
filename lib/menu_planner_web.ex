@@ -23,6 +23,7 @@ defmodule MenuPlannerWeb do
 
       import Plug.Conn
       import MenuPlannerWeb.Gettext
+      import MenuPlannerWeb.Auth, only: [authenticate_user: 2]
       alias MenuPlannerWeb.Router.Helpers, as: Routes
     end
   end
