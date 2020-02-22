@@ -25,6 +25,7 @@ defmodule MenuPlanner.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import MenuPlanner.DataCase
+      import MenuPlanner.Factory
     end
   end
 
