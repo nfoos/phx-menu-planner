@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+import Ecto.Query, only: [from: 2]
+
+alias MenuPlanner.Accounts
+alias MenuPlanner.Accounts.User
+alias MenuPlanner.Repo
+
+if Repo.one(from User, select: count()) == 0 do
+  Accounts.create_user(%{name: "Admin", email: "admin", password: "secret"})
+end
