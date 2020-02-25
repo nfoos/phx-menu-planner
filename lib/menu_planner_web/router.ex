@@ -36,5 +36,11 @@ defmodule MenuPlannerWeb.Router do
     scope "/v1", Api.V1, as: :v1 do
       post "/login", AuthController, :login
     end
+
+    scope "/v1", Api.V1, as: :v1 do
+      pipe_through :token_auth
+
+      resources "/users", UserController, except: [:new, :edit, :delete]
+    end
   end
 end
