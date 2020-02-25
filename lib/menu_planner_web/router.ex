@@ -14,6 +14,10 @@ defmodule MenuPlannerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :token_auth do
+    plug MenuPlannerWeb.Auth.Pipeline
+  end
+
   scope "/", MenuPlannerWeb do
     pipe_through :browser
 
@@ -26,8 +30,17 @@ defmodule MenuPlannerWeb.Router do
     resources "/users", UserController, except: [:delete]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", MenuPlannerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", MenuPlannerWeb, as: :api do
+    pipe_through :api
+
+    scope "/v1", Api.V1, as: :v1 do
+      post "/login", AuthController, :login
+    end
+
+    scope "/v1", Api.V1, as: :v1 do
+      pipe_through :token_auth
+
+      resources "/users", UserController, except: [:new, :edit, :delete]
+    end
+  end
 end

@@ -17,6 +17,10 @@ config :menu_planner, MenuPlannerWeb.Endpoint,
   render_errors: [view: MenuPlannerWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: MenuPlanner.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :menu_planner, MenuPlannerWeb.Auth.Guardian,
+  issuer: "menu_planner",
+  secret_key: "GVa41N8TYzvJuI36Csjt4bf+gsqidIXNiC9yhHgb2zzCv6KC8jvGhfMxPSeZuMzR"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -39,14 +39,23 @@ defmodule MenuPlannerWeb.ConnCase do
 
     conn = Phoenix.ConnTest.build_conn()
 
-    conn =
+    {conn, user} =
       cond do
         tags[:authenticated_user] ->
-          Plug.Conn.assign(conn, :current_user, MenuPlanner.Factory.insert(:user))
+          user = MenuPlanner.Factory.insert(:user)
+          conn = Plug.Conn.assign(conn, :current_user, user)
+          {conn, user}
+
+        tags[:authorized_token] ->
+          user = MenuPlanner.Factory.insert(:user)
+          {:ok, _user, token } = MenuPlannerWeb.Auth.Guardian.create_token(user)
+          conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
+          {conn, user}
+
         true ->
-          conn
+          {conn, nil}
       end
 
-    {:ok, conn: conn}
+    {:ok, conn: conn, user: user}
   end
 end
