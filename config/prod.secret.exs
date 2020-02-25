@@ -23,12 +23,22 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+secret_key =
+  System.get_env("SECRET_KEY") ||
+    raise """
+    environment variable SECRET_KEY is missing.
+    You can generate one by calling	: mix guardian.gen.secret
+    """
+
 config :menu_planner, MenuPlannerWeb.Endpoint,
   http: [
     port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base
+
+config :menu_planner, MenuPlannerWeb.Auth.Guardian,
+  secret_key: secret_key
 
 # ## Using releases (Elixir v1.9+)
 #

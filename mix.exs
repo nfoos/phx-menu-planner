@@ -52,6 +52,7 @@ defmodule MenuPlanner.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       {:pbkdf2_elixir, "~> 1.0"},
+      {:guardian, "~> 2.0"},
       {:logger_json, "~> 3.0", only: [:prod]},
 
       {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
