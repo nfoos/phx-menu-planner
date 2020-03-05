@@ -43,4 +43,30 @@ defmodule MenuPlannerWeb.Router do
       resources "/users", UserController, except: [:new, :edit, :delete]
     end
   end
+
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI,
+      otp_app: :menu_planner,
+      swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Menu Planner"
+      },
+      securityDefinitions: %{
+        Bearer: %{
+          type: "apiKey",
+          name: "Authorization",
+          description:
+            "API Token must be provided via `Authorization: Bearer <api_token>` header",
+          in: "header"
+        }
+      },
+      consumes: ["application/json"],
+      produces: ["application/json"]
+    }
+  end
 end

@@ -12,7 +12,7 @@ config :menu_planner,
 
 # Configures the endpoint
 config :menu_planner, MenuPlannerWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("HOST", "localhost"), port: System.get_env("PORT", "4000")],
   secret_key_base: "Rlfv5qwB1IAXd/b6KyYfLESOkhB52c3eJSVy/MJsi3dKFraYqjh5vKxImVp1J1oO",
   render_errors: [view: MenuPlannerWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: MenuPlanner.PubSub, adapter: Phoenix.PubSub.PG2]
@@ -28,6 +28,15 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+config :phoenix_swagger, json_library: Jason
+
+config :menu_planner, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      router: MenuPlannerWeb.Router,
+      endpoint: MenuPlannerWeb.Endpoint
+    ]
+  }
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
