@@ -48,6 +48,7 @@ defmodule MenuPlannerWeb.AuthTest do
 
   test "call places user from session into assigns", %{conn: conn} do
     user = insert(:user)
+
     conn =
       conn
       |> put_session(:user_id, user.id)

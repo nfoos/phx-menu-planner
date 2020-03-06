@@ -43,7 +43,10 @@ defmodule MenuPlannerWeb.SessionControllerTest do
     end
 
     test "renders errors when login is invalid", %{conn: conn, user: user} do
-      conn = post(conn, Routes.session_path(conn, :create), session: %{email: user.email, password: "invalid"})
+      conn =
+        post(conn, Routes.session_path(conn, :create),
+          session: %{email: user.email, password: "invalid"}
+        )
 
       assert get_flash(conn, :error) == "Invalid email/password combination"
       assert html_response(conn, 200) =~ "Log in"

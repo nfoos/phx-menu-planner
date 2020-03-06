@@ -1,4 +1,5 @@
 import Config
+
 config :menu_planner, MenuPlannerWeb.Endpoint,
   server: true,
   http: [port: {:system, "PORT"}],

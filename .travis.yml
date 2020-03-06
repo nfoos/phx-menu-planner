@@ -28,6 +28,7 @@ before_script:
 script:
   - mix hex.outdated
   - mix credo --strict
+  - mix format --check-formatted
   - mix coveralls.json
 
 after_success:

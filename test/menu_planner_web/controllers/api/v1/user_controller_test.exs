@@ -30,7 +30,7 @@ defmodule MenuPlannerWeb.Api.V1.UserControllerTest do
       assert %{
                "id" => id,
                "email" => "some email",
-               "name" => "some name",
+               "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
 
@@ -62,7 +62,7 @@ defmodule MenuPlannerWeb.Api.V1.UserControllerTest do
       assert %{
                "id" => id,
                "email" => "some updated email",
-               "name" => "some updated name",
+               "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end
 

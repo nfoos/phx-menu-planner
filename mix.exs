@@ -50,14 +50,12 @@ defmodule MenuPlanner.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-
       {:pbkdf2_elixir, "~> 1.0"},
       {:guardian, "~> 2.0"},
       {:logger_json, "~> 3.0", only: [:prod]},
-
       {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.3", only: :test},
+      {:ex_machina, "~> 2.3", only: :test}
     ]
   end
 

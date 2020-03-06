@@ -20,7 +20,9 @@ defmodule MenuPlannerWeb.Api.V1.AuthControllerTest do
   end
 
   test "invalid email", %{conn: conn} do
-    conn = post(conn, Routes.api_v1_auth_path(conn, :login), email: "invalid", password: "invalid")
+    conn =
+      post(conn, Routes.api_v1_auth_path(conn, :login), email: "invalid", password: "invalid")
+
     assert json_response(conn, 401) == "Unauthorized"
   end
 end

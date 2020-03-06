@@ -30,7 +30,7 @@ defmodule MenuPlannerWeb.Auth.PipelineTest do
 
   test "request does not halt when valid token provided", %{conn: conn} do
     user = insert(:user)
-    {:ok, _user, token } = Auth.Guardian.create_token(user)
+    {:ok, _user, token} = Auth.Guardian.create_token(user)
 
     conn =
       conn
