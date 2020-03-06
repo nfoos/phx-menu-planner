@@ -8,7 +8,7 @@
       },
       checks: [
         {Credo.Check.Refactor.MapInto, false},
-        {Credo.Check.Warning.LazyLogging, false},
+        {Credo.Check.Warning.LazyLogging, false}
 
         # {Credo.Check.Consistency.TabsOrSpaces},
 

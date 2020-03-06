@@ -48,7 +48,7 @@ defmodule MenuPlannerWeb.ConnCase do
 
         tags[:authorized_token] ->
           user = MenuPlanner.Factory.insert(:user)
-          {:ok, _user, token } = MenuPlannerWeb.Auth.Guardian.create_token(user)
+          {:ok, _user, token} = MenuPlannerWeb.Auth.Guardian.create_token(user)
           conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
           {conn, user}
 

@@ -11,11 +11,12 @@ defmodule MenuPlannerWeb.Api.V1.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
+    %{
+      id: user.id,
       email: user.email,
       name: user.name,
       inserted_at: NaiveDateTime.to_string(user.inserted_at),
-      updated_at: NaiveDateTime.to_string(user.updated_at),
+      updated_at: NaiveDateTime.to_string(user.updated_at)
     }
   end
 end

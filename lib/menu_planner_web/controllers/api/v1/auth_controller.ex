@@ -11,6 +11,7 @@ defmodule MenuPlannerWeb.Api.V1.AuthController do
         conn
         |> put_status(:created)
         |> render("login.json", %{user: user, token: token})
+
       {:error, _reason} ->
         {:error, :unauthorized}
     end

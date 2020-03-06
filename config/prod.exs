@@ -16,8 +16,7 @@ config :menu_planner, MenuPlannerWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
-config :logger_json, :backend,
-  metadata: :all
+config :logger_json, :backend, metadata: :all
 
 config :logger,
   backends: [LoggerJSON]

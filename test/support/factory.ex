@@ -7,7 +7,7 @@ defmodule MenuPlanner.Factory do
   def user_factory do
     %User{
       name: sequence("Test User"),
-      email: sequence(:email, &"test.user#{&1}@example.com"),
+      email: sequence(:email, &"test.user#{&1}@example.com")
     }
   end
 end

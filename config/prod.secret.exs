@@ -37,8 +37,7 @@ config :menu_planner, MenuPlannerWeb.Endpoint,
   ],
   secret_key_base: secret_key_base
 
-config :menu_planner, MenuPlannerWeb.Auth.Guardian,
-  secret_key: secret_key
+config :menu_planner, MenuPlannerWeb.Auth.Guardian, secret_key: secret_key
 
 # ## Using releases (Elixir v1.9+)
 #

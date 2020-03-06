@@ -28,8 +28,7 @@ defmodule MenuPlannerWeb.Api.V1.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     with {:ok, user} <- Accounts.fetch_user(id),
-         {:ok, %User{} = user} <- Accounts.update_user(user, user_params)
-    do
+         {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
       render(conn, "show.json", user: user)
     end
   end

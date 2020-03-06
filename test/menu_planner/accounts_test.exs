@@ -101,7 +101,8 @@ defmodule MenuPlanner.AccountsTest do
     end
 
     test "returns unauthorized error with invalid password", %{user: user} do
-      assert {:error, :unauthorized} = Accounts.authenticate_by_email_and_pass(user.email, "badpass")
+      assert {:error, :unauthorized} =
+               Accounts.authenticate_by_email_and_pass(user.email, "badpass")
     end
 
     test "returns not found error with no matching user for email" do
