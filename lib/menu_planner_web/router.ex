@@ -56,6 +56,9 @@ defmodule MenuPlannerWeb.Router do
         version: "1.0",
         title: "Menu Planner"
       },
+      tags: [
+        %{name: "User", description: "Operations related to Users"}
+      ],
       securityDefinitions: %{
         Bearer: %{
           type: "apiKey",
