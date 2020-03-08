@@ -61,7 +61,8 @@ defmodule MenuPlanner.MixProject do
       # dev/test
       {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.3", only: :test}
+      {:ex_machina, "~> 2.3", only: :test},
+      {:ex_json_schema, "~> 0.7", only: :test}
     ]
   end
 
@@ -75,7 +76,7 @@ defmodule MenuPlanner.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      test: ["ecto.create --quiet", "ecto.migrate", "swagger", "test"],
       swagger: ["phx.swagger.generate"]
     ]
   end

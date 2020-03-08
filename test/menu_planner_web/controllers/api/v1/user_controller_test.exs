@@ -1,10 +1,11 @@
 defmodule MenuPlannerWeb.Api.V1.UserControllerTest do
   use MenuPlannerWeb.ConnCase
+  use PhoenixSwagger.SchemaTest, "priv/static/swagger.json"
 
   alias MenuPlanner.Accounts.User
 
-  @create_attrs %{email: "some email", name: "some name"}
-  @update_attrs %{email: "some updated email", name: "some updated name"}
+  @create_attrs %{email: "user1@example.com", name: "some name"}
+  @update_attrs %{email: "user2@example.com", name: "some updated name"}
   @invalid_attrs %{email: nil, name: nil}
 
   setup %{conn: conn} do
@@ -13,23 +14,34 @@ defmodule MenuPlannerWeb.Api.V1.UserControllerTest do
 
   describe "index" do
     @tag :authorized_token
-    test "lists all users", %{conn: conn, user: %User{id: id}} do
-      conn = get(conn, Routes.api_v1_user_path(conn, :index))
+    test "lists all users", %{conn: conn, user: %User{id: id}, swagger_schema: schema} do
+      conn =
+        conn
+        |> get(Routes.api_v1_user_path(conn, :index))
+        |> validate_resp_schema(schema, "UsersResponse")
+
       assert [%{"id" => ^id}] = json_response(conn, 200)["data"]
     end
   end
 
   describe "create user" do
     @tag :authorized_token
-    test "renders user when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.api_v1_user_path(conn, :create), user: @create_attrs)
+    test "renders user when data is valid", %{conn: conn, swagger_schema: schema} do
+      conn =
+        conn
+        |> post(Routes.api_v1_user_path(conn, :create), user: @create_attrs)
+        |> validate_resp_schema(schema, "UserResponse")
+
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.api_v1_user_path(conn, :show, id))
+      conn =
+        conn
+        |> get(Routes.api_v1_user_path(conn, :show, id))
+        |> validate_resp_schema(schema, "UserResponse")
 
       assert %{
                "id" => id,
-               "email" => "some email",
+               "email" => "user1@example.com",
                "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
@@ -53,15 +65,23 @@ defmodule MenuPlannerWeb.Api.V1.UserControllerTest do
     setup [:create_user]
 
     @tag :authorized_token
-    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
-      conn = put(conn, Routes.api_v1_user_path(conn, :update, user), user: @update_attrs)
+    test "renders user when data is valid", %{
+      conn: conn,
+      user: %User{id: id} = user,
+      swagger_schema: schema
+    } do
+      conn =
+        conn
+        |> put(Routes.api_v1_user_path(conn, :update, user), user: @update_attrs)
+        |> validate_resp_schema(schema, "UserResponse")
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.api_v1_user_path(conn, :show, id))
 
       assert %{
                "id" => id,
-               "email" => "some updated email",
+               "email" => "user2@example.com",
                "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end
