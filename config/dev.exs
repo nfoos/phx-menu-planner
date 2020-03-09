@@ -58,12 +58,14 @@ config :menu_planner, MenuPlannerWeb.Endpoint,
 config :menu_planner, MenuPlannerWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg|json)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/menu_planner_web/(live|views)/.*(ex)$",
+      ~r{lib/menu_planner_web/controllers/.*(ex)$},
       ~r"lib/menu_planner_web/templates/.*(eex)$"
     ]
-  ]
+  ],
+  reloadable_compilers: [:gettext, :phoenix, :elixir, :phoenix_swagger]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
