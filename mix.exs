@@ -59,7 +59,7 @@ defmodule MenuPlanner.MixProject do
       {:phoenix_swagger, "~> 0.8"},
 
       # dev/test
-      {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.3", only: :test},
       {:ex_json_schema, "~> 0.7", only: :test}
