@@ -1,5 +1,7 @@
 # MenuPlanner
 
+[![Build Status](https://travis-ci.com/nfoos/phx-menu-planner.svg?branch=master)](https://travis-ci.com/nfoos/phx-menu-planner) [![Coverage Status](https://codecov.io/gh/nfoos/phx-menu-planner/branch/master/graph/badge.svg)](https://codecov.io/gh/nfoos/phx-menu-planner)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
