@@ -2,5 +2,12 @@
   "coverage_options": {
     "treat_no_relevant_lines_as_covered": true,
     "minimum_coverage": 90
-  }
+  },
+  "custom_stop_words": [
+    "swagger_path"
+  ],
+  "skip_files": [
+    "lib/menu_planner/application.ex",
+    "lib/menu_planner_web/router.ex"
+  ]
 }

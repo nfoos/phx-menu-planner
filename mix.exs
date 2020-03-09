@@ -7,7 +7,7 @@ defmodule MenuPlanner.MixProject do
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers() ++ [:phoenix_swagger],
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -40,6 +40,7 @@ defmodule MenuPlanner.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # phoenix
       {:phoenix, "~> 1.4.12"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
@@ -50,12 +51,18 @@ defmodule MenuPlanner.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+
+      # project
       {:pbkdf2_elixir, "~> 1.0"},
       {:guardian, "~> 2.0"},
       {:logger_json, "~> 3.0", only: [:prod]},
+      {:phoenix_swagger, "~> 0.8"},
+
+      # dev/test
       {:credo, "~> 1.2.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.3", only: :test}
+      {:ex_machina, "~> 2.3", only: :test},
+      {:ex_json_schema, "~> 0.7", only: :test}
     ]
   end
 
@@ -69,7 +76,8 @@ defmodule MenuPlanner.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "swagger", "test"],
+      swagger: ["phx.swagger.generate"]
     ]
   end
 end
