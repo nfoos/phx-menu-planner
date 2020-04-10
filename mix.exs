@@ -55,7 +55,7 @@ defmodule MenuPlanner.MixProject do
       # project
       {:pbkdf2_elixir, "~> 1.0"},
       {:guardian, "~> 2.0"},
-      {:logger_json, "~> 3.0", only: [:prod]},
+      {:logger_json, "~> 4.0", only: [:prod]},
       {:phoenix_swagger, "~> 0.8"},
 
       # dev/test
