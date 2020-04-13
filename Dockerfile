@@ -1,4 +1,4 @@
-FROM elixir:1.9-alpine
+FROM elixir:1.10-alpine
 
 RUN set -ex && \
   apk update && \
@@ -10,6 +10,9 @@ RUN set -ex && \
 RUN mix local.hex --force \
   && mix local.rebar --force \
   && mix archive.install --force hex phx_new
+
+ENV MIX_BUILD_PATH /tmp/_build/
+ENV MIX_DEPS_PATH /tmp/deps/
 
 WORKDIR /app
 COPY mix.exs mix.lock ./
