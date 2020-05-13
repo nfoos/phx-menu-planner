@@ -14,8 +14,9 @@ config :menu_planner,
 config :menu_planner, MenuPlannerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Rlfv5qwB1IAXd/b6KyYfLESOkhB52c3eJSVy/MJsi3dKFraYqjh5vKxImVp1J1oO",
-  render_errors: [view: MenuPlannerWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: MenuPlanner.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: MenuPlannerWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: MenuPlanner.PubSub,
+  live_view: [signing_salt: "aX3AE7j2"]
 
 # Configures Elixir's Logger
 config :logger, :console,
