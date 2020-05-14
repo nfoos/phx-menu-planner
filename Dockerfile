@@ -9,7 +9,7 @@ RUN set -ex && \
 
 RUN mix local.hex --force \
   && mix local.rebar --force \
-  && mix archive.install --force hex phx_new
+  && mix archive.install --force hex phx_new 1.5.0
 
 WORKDIR /app
 COPY mix.exs mix.lock ./
