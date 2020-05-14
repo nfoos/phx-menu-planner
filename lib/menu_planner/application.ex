@@ -6,14 +6,17 @@ defmodule MenuPlanner.Application do
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
       # Start the Ecto repository
       MenuPlanner.Repo,
-      # Start the endpoint when the application starts
+      # Start the Telemetry supervisor
+      MenuPlannerWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: MenuPlanner.PubSub},
+      # Start the Endpoint (http/https)
       MenuPlannerWeb.Endpoint
-      # Starts a worker by calling: MenuPlanner.Worker.start_link(arg)
-      # {MenuPlanner.Worker, arg},
+      # Start a worker by calling: MenuPlanner.Worker.start_link(arg)
+      # {MenuPlanner.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
