@@ -40,6 +40,8 @@ defmodule MenuPlannerWeb.Router do
     scope "/v1", Api.V1, as: :v1 do
       pipe_through :token_auth
 
+      resources "/meal_services", MealServiceController, except: [:new, :edit, :delete]
+      resources "/service_types", ServiceTypeController, only: [:index]
       resources "/users", UserController, except: [:new, :edit, :delete]
     end
   end

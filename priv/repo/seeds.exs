@@ -13,8 +13,13 @@ import Ecto.Query, only: [from: 2]
 
 alias MenuPlanner.Accounts
 alias MenuPlanner.Accounts.User
+alias MenuPlanner.Menus
 alias MenuPlanner.Repo
 
 if Repo.one(from User, select: count()) == 0 do
   Accounts.create_user(%{name: "Admin", email: "admin", password: "secret"})
+end
+
+for service_type <- ~w(Lunch Dinner) do
+  Menus.create_service_type!(service_type)
 end
