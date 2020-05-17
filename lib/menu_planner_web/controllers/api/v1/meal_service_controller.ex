@@ -20,6 +20,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
             name(:string, "Meal service name", example: "Taco Tuesday")
             date(:string, "Meal service date", format: :date, example: "2020-05-14")
             service_type_id(:integer, "Service type ID", example: 1)
+            service_type(Schema.ref(:ServiceType))
 
             inserted_at(:string, "Create timestamp",
               format: :datetime,
@@ -101,7 +102,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.api_v1_meal_service_path(conn, :show, meal_service))
-      |> render("show.json", meal_service: meal_service)
+      |> show_meal_service(meal_service)
     end
   end
 
@@ -118,7 +119,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
 
   def show(conn, %{"id" => id}) do
     meal_service = Menus.get_meal_service!(id)
-    render(conn, "show.json", meal_service: meal_service)
+    show_meal_service(conn, meal_service)
   end
 
   swagger_path :update do
@@ -143,7 +144,11 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
 
     with {:ok, %MealService{} = meal_service} <-
            Menus.update_meal_service(meal_service, meal_service_params) do
-      render(conn, "show.json", meal_service: meal_service)
+      show_meal_service(conn, meal_service)
     end
+  end
+
+  defp show_meal_service(conn, %MealService{} = meal_service) do
+    render(conn, "show.json", meal_service: Menus.preload_meal_services(meal_service))
   end
 end
