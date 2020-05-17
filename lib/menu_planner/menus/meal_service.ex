@@ -19,5 +19,7 @@ defmodule MenuPlanner.Menus.MealService do
     meal_service
     |> cast(attrs, [:name, :date, :service_type_id])
     |> validate_required([:name, :date, :service_type_id])
+    |> unique_constraint([:date, :service_type_id])
+    |> foreign_key_constraint(:service_type_id)
   end
 end
