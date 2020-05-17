@@ -28,7 +28,7 @@ defmodule MenuPlanner.Menus do
 
   def preload_meal_services(meal_services) do
     meal_services
-    |> Repo.preload(:service_type)
+    |> Repo.preload([:service_type, :menu_items])
   end
 
   def create_meal_service(attrs \\ %{}) do

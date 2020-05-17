@@ -21,6 +21,27 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
             date(:string, "Meal service date", format: :date, example: "2020-05-14")
             service_type_id(:integer, "Service type ID", example: 1)
             service_type(Schema.ref(:ServiceType))
+            menu_items(Schema.array(:MenuItem))
+
+            inserted_at(:string, "Create timestamp",
+              format: :datetime,
+              example: "2020-03-08 16:53:19"
+            )
+
+            updated_at(:string, "Update timestamp",
+              format: :datetime,
+              example: "2020-03-08 16:53:19"
+            )
+          end
+        end,
+      MenuItem:
+        swagger_schema do
+          title("MenuItem")
+          description("A menu item")
+
+          properties do
+            id(:integer, "Menu item ID", example: 1)
+            name(:string, "Menu item name", example: "Chicken Taco")
 
             inserted_at(:string, "Create timestamp",
               format: :datetime,
@@ -48,6 +69,17 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
             )
 
             service_type_id(:integer, "Service type ID", required: true, example: 1)
+            menu_items(Schema.ref(:MenuItemParams))
+          end
+        end,
+      MenuItemParams:
+        swagger_schema do
+          title("MenuItemParams")
+          description("Menu item parameters")
+
+          properties do
+            id(:integer, "Menu item ID (for update only)", example: 1)
+            name(:string, "Menu item name", required: true, example: "Chicken Taco")
           end
         end,
       MealServiceRequest:

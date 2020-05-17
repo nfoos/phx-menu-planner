@@ -1,6 +1,11 @@
 defmodule MenuPlannerWeb.Api.V1.MealServiceView do
   use MenuPlannerWeb, :view
-  alias MenuPlannerWeb.Api.V1.{MealServiceView, ServiceTypeView}
+
+  alias MenuPlannerWeb.Api.V1.{
+    MealServiceView,
+    MenuItemView,
+    ServiceTypeView
+  }
 
   def render("index.json", %{meal_services: meal_services}) do
     %{data: render_many(meal_services, MealServiceView, "meal_service.json")}
@@ -17,6 +22,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceView do
       date: meal_service.date,
       service_type_id: meal_service.service_type_id,
       service_type: render_one(meal_service.service_type, ServiceTypeView, "service_type.json"),
+      menu_items: render_many(meal_service.menu_items, MenuItemView, "menu_item.json"),
       inserted_at: NaiveDateTime.to_string(meal_service.inserted_at),
       updated_at: NaiveDateTime.to_string(meal_service.updated_at)
     }
