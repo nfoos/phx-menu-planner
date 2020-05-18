@@ -21,7 +21,6 @@ defmodule MenuPlannerWeb.SessionControllerTest do
       logout_path = Routes.session_path(conn, :delete)
 
       conn = get(conn, index_path)
-      refute html_response(conn, 200) =~ user.name
       assert is_nil(conn.assigns.current_user)
 
       # log in
@@ -30,7 +29,6 @@ defmodule MenuPlannerWeb.SessionControllerTest do
       assert redirected_to(conn) == index_path
 
       conn = get(conn, index_path)
-      assert html_response(conn, 200) =~ user.name
       assert conn.assigns.current_user == user
 
       # log out
@@ -38,7 +36,6 @@ defmodule MenuPlannerWeb.SessionControllerTest do
       assert redirected_to(conn) == index_path
 
       conn = get(conn, index_path)
-      refute html_response(conn, 200) =~ user.name
       assert is_nil(conn.assigns.current_user)
     end
 

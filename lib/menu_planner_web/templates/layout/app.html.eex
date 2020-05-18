@@ -10,36 +10,65 @@
   </head>
   <body>
     <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <%= if @current_user do %>
-              <li><%= @current_user.name %></li>
-              <li>
-                <%= link "Log out", to: Routes.session_path(@conn, :delete) %>
-              </li>
-              <li>
-                <%= link "Users", to: Routes.user_path(@conn, :index) %>
-              </li>
-              <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-                <li><%= link "Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
+        <div class="container">
+          <%= link "Menu Planner", to: Routes.page_path(@conn, :index), class: "navbar-brand" %>
+          <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav">
+              <%= if @current_user do %>
+                <li class="navbar-item">
+                  <%= link "Users", to: Routes.user_path(@conn, :index), class: "nav-link" %>
+                </li>
               <% end %>
-            <% else %>
-              <li><%= link "Log in", to: Routes.session_path(@conn, :new) %></li>
-            <% end %>
-            <li>
-              <%= link "API Docs", to: '/api/swagger' %>
-            </li>
-          </ul>
-        </nav>
-        <a href="<%= Routes.page_path(@conn, :index) %>" class="phx-logo">
-          <span>Menu Planner</span>
-        </a>
-      </section>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <%= if @current_user do %>
+                <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                  <li class="navbar-item">
+                    <%= link  to: Routes.live_dashboard_path(@conn, :home), target: "_blank", class: "nav-link" do %>
+                      <i class="fas fa-tachometer-alt"></i>
+                    <% end %>
+                  </li>
+                <% end %>
+                <li class="navbar-item">
+                  <%= link to: Routes.session_path(@conn, :delete), class: "nav-link" do %>
+                    <i class="fas fa-sign-out-alt"></i> Log out
+                  <% end %>
+                </li>
+              <% else %>
+                <li class="navbar-item">
+                  <%= link to: Routes.session_path(@conn, :new), class: "nav-link" do %>
+                    <i class="fas fa-sign-in-alt"></i> Log in
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
     <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <div class="pt-1 pb-5">
+        <%= if msg = get_flash(@conn, :info) do %>
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button class="close" type="button" data-dismiss="alert">
+              <span>&times;</span>
+            </button>
+            <%= msg %>
+          </div>
+        <% end %>
+        <%= if msg = get_flash(@conn, :error) do %>
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button class="close" type="button" data-dismiss="alert">
+              <span>&times;</span>
+            </button>
+            <%= msg %>
+          </div>
+        <% end %>
+      </div>
       <%= @inner_content %>
     </main>
   </body>

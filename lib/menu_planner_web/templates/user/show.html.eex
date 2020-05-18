@@ -1,17 +1,38 @@
-<h1>Show User</h1>
+<section class="col-md-10 mx-auto">
+  <header class="d-flex justify-content-between align-items-center">
+    <h1>Show User</h1>
+    <div>
+      <%= link to: Routes.user_path(@conn, :index), class: "btn btn-link text-secondary" do %>
+        <i class="fas fa-arrow-left"></i> Back To Users
+      <% end %>
+      <%= link to: Routes.user_path(@conn, :edit, @user), class: "btn btn-outline-primary" do %>
+        <i class="fas fa-pencil-alt"></i> Edit User
+      <% end %>
+    </div>
+  </header>
 
-<ul>
-
-  <li>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </li>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @user.name %>
-  </li>
-</ul>
-
-<span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user) %></span>
-<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>ID</th>
+        <td><%= @user.id %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <th>Created</th>
+        <td><%= @user.inserted_at %></td>
+      </tr>
+      <tr>
+        <th>Updated</th>
+        <td><%= @user.updated_at %></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
