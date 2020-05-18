@@ -2,8 +2,13 @@ defmodule MenuPlanner.MenusTest do
   use MenuPlanner.DataCase
 
   alias MenuPlanner.Menus
-  alias MenuPlanner.Menus.{MealService, ServiceType}
   alias MenuPlanner.Repo
+
+  alias MenuPlanner.Menus.{
+    MealService,
+    MenuItem,
+    ServiceType
+  }
 
   @invalid_attrs %{date: nil, name: nil, service_type_id: nil}
 
@@ -23,14 +28,14 @@ defmodule MenuPlanner.MenusTest do
 
   describe "list_meal_services/0" do
     test "returns all meal_services" do
-      meal_service = insert(:meal_service)
+      meal_service = insert(:meal_service) |> Menus.preload_meal_services()
       assert Menus.list_meal_services() == [meal_service]
     end
   end
 
   describe "get_meal_service/1" do
     test "returns the meal_service with given id" do
-      meal_service = insert(:meal_service)
+      meal_service = insert(:meal_service) |> Menus.preload_meal_services()
       assert Menus.get_meal_service!(meal_service.id) == meal_service
     end
   end
@@ -46,6 +51,18 @@ defmodule MenuPlanner.MenusTest do
 
     test "with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Menus.create_meal_service(@invalid_attrs)
+    end
+
+    test "creates menu items" do
+      menu_item_params = params_for(:menu_item)
+
+      create_params =
+        params_with_assocs(:meal_service)
+        |> Map.put(:menu_items, [menu_item_params])
+
+      assert {:ok, %MealService{} = meal_service} = Menus.create_meal_service(create_params)
+
+      assert Repo.get_by(MenuItem, meal_service_id: meal_service.id, name: menu_item_params.name)
     end
   end
 
@@ -63,9 +80,57 @@ defmodule MenuPlanner.MenusTest do
     end
 
     test "with invalid data returns error changeset" do
-      meal_service = insert(:meal_service)
+      meal_service = insert(:meal_service) |> Menus.preload_meal_services()
       assert {:error, %Ecto.Changeset{}} = Menus.update_meal_service(meal_service, @invalid_attrs)
       assert meal_service == Menus.get_meal_service!(meal_service.id)
+    end
+
+    test "adds new menu items" do
+      meal_service =
+        insert(:meal_service)
+        |> Menus.preload_meal_services()
+
+      menu_item_params = params_for(:menu_item)
+
+      refute Repo.get_by(MenuItem, meal_service_id: meal_service.id, name: menu_item_params.name)
+
+      assert {:ok, %MealService{}} =
+               Menus.update_meal_service(meal_service, %{
+                 menu_items: [menu_item_params]
+               })
+
+      assert Repo.get_by(MenuItem, meal_service_id: meal_service.id, name: menu_item_params.name)
+    end
+
+    test "updates existing menu items" do
+      menu_item = insert(:menu_item)
+      new_name = menu_item.name <> " (updated)"
+      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+
+      assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
+      refute Repo.get_by(MenuItem, id: menu_item.id, name: new_name)
+
+      assert {:ok, %MealService{}} =
+               Menus.update_meal_service(meal_service, %{
+                 menu_items: [%{id: menu_item.id, name: new_name}]
+               })
+
+      refute Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
+      assert Repo.get_by(MenuItem, id: menu_item.id, name: new_name)
+    end
+
+    test "deletes menu items" do
+      menu_item = insert(:menu_item)
+      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+
+      assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
+
+      assert {:ok, %MealService{}} =
+               Menus.update_meal_service(meal_service, %{
+                 menu_items: []
+               })
+
+      refute Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
     end
   end
 

@@ -3,7 +3,12 @@ defmodule MenuPlanner.Factory do
   use ExMachina.Ecto, repo: MenuPlanner.Repo
 
   alias MenuPlanner.Accounts.User
-  alias MenuPlanner.Menus.{MealService, ServiceType}
+
+  alias MenuPlanner.Menus.{
+    MealService,
+    MenuItem,
+    ServiceType
+  }
 
   def service_type_factory do
     %ServiceType{
@@ -16,6 +21,13 @@ defmodule MenuPlanner.Factory do
       name: sequence("Meal"),
       date: Date.utc_today(),
       service_type: build(:service_type)
+    }
+  end
+
+  def menu_item_factory do
+    %MenuItem{
+      name: sequence("Item"),
+      meal_service: build(:meal_service)
     }
   end
 

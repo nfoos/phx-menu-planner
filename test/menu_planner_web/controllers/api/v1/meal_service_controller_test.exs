@@ -22,7 +22,11 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceControllerTest do
   describe "create/2" do
     @tag :authorized_token
     test "renders meal_service when data is valid", %{conn: conn} do
-      %{name: name} = create_params = params_with_assocs(:meal_service)
+      %{name: name} =
+        create_params =
+        params_with_assocs(:meal_service)
+        |> Map.put(:menu_items, [params_for(:menu_item)])
+
       create_path = Routes.api_v1_meal_service_path(conn, :create)
 
       conn = post(conn, create_path, meal_service: create_params)

@@ -17,13 +17,18 @@ defmodule MenuPlanner.Menus do
   def list_meal_services do
     MealService
     |> Repo.all()
-    |> Repo.preload(:service_type)
+    |> preload_meal_services()
   end
 
   def get_meal_service!(id) do
     MealService
     |> Repo.get!(id)
-    |> Repo.preload(:service_type)
+    |> preload_meal_services()
+  end
+
+  def preload_meal_services(meal_services) do
+    meal_services
+    |> Repo.preload([:service_type, :menu_items])
   end
 
   def create_meal_service(attrs \\ %{}) do
