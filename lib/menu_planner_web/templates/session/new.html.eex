@@ -1,11 +1,15 @@
-<h1>Log in</h1>
+<section class="col-md-6 mx-auto">
+  <header>
+    <h1>Log in</h1>
+  </header>
 
-<%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
-  <div>
-    <%= text_input f, :email, placeholder: "Email" %>
-  </div>
-  <div>
-    <%= password_input f, :password, placeholder: "Password" %>
-  </div>
-  <%= submit "Log in" %>
-<% end %>
+  <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+    <div class="form-group">
+      <%= text_input f, :email, placeholder: "Email", class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
+    </div>
+    <%= submit "Log in", class: "btn btn-primary btn-block" %>
+  <% end %>
+</section>

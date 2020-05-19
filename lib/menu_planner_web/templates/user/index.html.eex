@@ -1,27 +1,32 @@
-<h1>Listing Users</h1>
+<section class="col-md-10 mx-auto">
+  <header class="d-flex justify-content-between align-items-center">
+    <h1>User List</h1>
+    <%= link to: Routes.user_path(@conn, :new), class: "btn btn-outline-primary" do %>
+      <i class="fas fa-plus"></i> New User
+    <% end %>
+  </header>
 
-<table>
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th>Name</th>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Name</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for user <- @users do %>
-    <tr>
-      <td><%= user.email %></td>
-      <td><%= user.name %></td>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for user <- @users do %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.name %></td>
 
-      <td>
-        <span><%= link "Show", to: Routes.user_path(@conn, :show, user) %></span>
-        <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user) %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New User", to: Routes.user_path(@conn, :new) %></span>
+          <td class="text-right">
+            <span><%= link "Show", to: Routes.user_path(@conn, :show, user), class: "btn btn-link" %></span>
+            <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user), class: "btn btn-link" %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
