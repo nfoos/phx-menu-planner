@@ -13,10 +13,12 @@ defmodule MenuPlanner.MixProject do
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        check: :test,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
-        "coveralls.html": :test
+        "coveralls.html": :test,
+        "coveralls.json": :test
       ]
     ]
   end
@@ -81,6 +83,7 @@ defmodule MenuPlanner.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "swagger", "test"],
+      check: ["hex.outdated", "credo --strict", "format --check-formatted", "coveralls.json"],
       swagger: ["phx.swagger.generate"]
     ]
   end
