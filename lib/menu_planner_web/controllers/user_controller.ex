@@ -4,8 +4,6 @@ defmodule MenuPlannerWeb.UserController do
   alias MenuPlanner.Accounts
   alias MenuPlanner.Accounts.User
 
-  plug :authenticate_user
-
   def index(conn, _params) do
     users = Accounts.list_users()
     render(conn, "index.html", users: users)

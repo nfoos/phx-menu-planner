@@ -30,12 +30,20 @@ secret_key =
     You can generate one by calling	: mix guardian.gen.secret
     """
 
+signing_salt =
+  System.get_env("SIGNING_SALT") ||
+    raise """
+    environment variable SIGNING_SALT is missing.
+    You can generate one by calling	: mix guardian.gen.secret
+    """
+
 config :menu_planner, MenuPlannerWeb.Endpoint,
   http: [
     port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
   ],
-  secret_key_base: secret_key_base
+  secret_key_base: secret_key_base,
+  live_view: [signing_salt: signing_salt]
 
 config :menu_planner, MenuPlannerWeb.Auth.Guardian, secret_key: secret_key
 
