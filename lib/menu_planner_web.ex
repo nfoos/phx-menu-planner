@@ -48,6 +48,7 @@ defmodule MenuPlannerWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import MenuPlannerWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

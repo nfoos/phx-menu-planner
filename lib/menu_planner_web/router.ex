@@ -1,5 +1,6 @@
 defmodule MenuPlannerWeb.Router do
   use MenuPlannerWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -26,6 +27,12 @@ defmodule MenuPlannerWeb.Router do
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
+  end
+
+  scope "/", MenuPlannerWeb do
+    pipe_through [:browser, :authenticate_user]
+
+    live_dashboard "/dashboard", metrics: MenuPlannerWeb.Telemetry
 
     resources "/users", UserController, except: [:delete]
   end
@@ -73,21 +80,5 @@ defmodule MenuPlannerWeb.Router do
       consumes: ["application/json"],
       produces: ["application/json"]
     }
-  end
-
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: MenuPlannerWeb.Telemetry
-    end
   end
 end
