@@ -153,8 +153,9 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
   end
 
   def show(conn, %{"id" => id}) do
-    meal_service = Menus.get_meal_service!(id)
-    show_meal_service(conn, meal_service)
+    with {:ok, meal_service} <- Menus.fetch_meal_service(id) do
+      show_meal_service(conn, meal_service)
+    end
   end
 
   swagger_path :update do
@@ -175,9 +176,8 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
   end
 
   def update(conn, %{"id" => id, "meal_service" => meal_service_params}) do
-    meal_service = Menus.get_meal_service!(id)
-
-    with {:ok, %MealService{} = meal_service} <-
+    with {:ok, meal_service} <- Menus.fetch_meal_service(id),
+         {:ok, %MealService{} = meal_service} <-
            Menus.update_meal_service(meal_service, meal_service_params) do
       show_meal_service(conn, meal_service)
     end

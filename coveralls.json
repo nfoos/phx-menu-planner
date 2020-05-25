@@ -8,6 +8,7 @@
   ],
   "skip_files": [
     "lib/menu_planner/application.ex",
+    "lib/menu_planner_web.ex",
     "lib/menu_planner_web/router.ex"
   ]
 }

@@ -52,10 +52,11 @@ defmodule MenuPlanner.Menus do
     |> preload_meal_services()
   end
 
-  def get_meal_service!(id) do
-    MealService
-    |> Repo.get!(id)
-    |> preload_meal_services()
+  def fetch_meal_service(id) do
+    case Repo.get(MealService, id) do
+      nil -> {:error, :not_found}
+      meal_service -> {:ok, preload_meal_services(meal_service)}
+    end
   end
 
   def preload_meal_services(meal_services) do

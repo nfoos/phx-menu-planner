@@ -51,7 +51,6 @@ defmodule MenuPlannerWeb.Router do
       resources "/meal_services", MealServiceController, except: [:new, :edit, :delete]
       resources "/menus", MenuController, only: [:index]
       resources "/service_types", ServiceTypeController, only: [:index]
-      resources "/users", UserController, except: [:new, :edit, :delete]
     end
   end
 
@@ -67,9 +66,7 @@ defmodule MenuPlannerWeb.Router do
         version: "1.0",
         title: "Menu Planner"
       },
-      tags: [
-        %{name: "User", description: "Operations related to Users"}
-      ],
+      tags: [],
       securityDefinitions: %{
         Bearer: %{
           type: "apiKey",
