@@ -22,6 +22,9 @@
                 <li class="navbar-item">
                   <%= link "Users", to: Routes.user_path(@conn, :index), class: "nav-link" %>
                 </li>
+                <li class="navbar-item">
+                  <%= link "Menus", to: Routes.menu_path(@conn, :index), class: "nav-link" %>
+                </li>
               <% end %>
             </ul>
             <ul class="navbar-nav ml-auto">

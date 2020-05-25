@@ -19,6 +19,8 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
             id(:integer, "Meal service ID", example: 1)
             name(:string, "Meal service name", example: "Taco Tuesday")
             date(:string, "Meal service date", format: :date, example: "2020-05-14")
+            menu_id(:integer, "Menu ID", example: 1)
+            menu(Schema.ref(:Menu))
             service_type_id(:integer, "Service type ID", example: 1)
             service_type(Schema.ref(:ServiceType))
             menu_items(Schema.array(:MenuItem))
@@ -68,6 +70,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
               example: "2020-05-15"
             )
 
+            menu_id(:integer, "Menu ID", required: true, example: 1)
             service_type_id(:integer, "Service type ID", required: true, example: 1)
             menu_items(Schema.ref(:MenuItemParams))
           end

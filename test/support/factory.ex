@@ -6,9 +6,16 @@ defmodule MenuPlanner.Factory do
 
   alias MenuPlanner.Menus.{
     MealService,
+    Menu,
     MenuItem,
     ServiceType
   }
+
+  def menu_factory do
+    %Menu{
+      name: sequence("Menu")
+    }
+  end
 
   def service_type_factory do
     %ServiceType{
@@ -20,7 +27,8 @@ defmodule MenuPlanner.Factory do
     %MealService{
       name: sequence("Meal"),
       date: Date.utc_today(),
-      service_type: build(:service_type)
+      service_type: build(:service_type),
+      menu: build(:menu)
     }
   end
 
