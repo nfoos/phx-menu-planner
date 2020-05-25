@@ -34,6 +34,7 @@ defmodule MenuPlannerWeb.Router do
 
     live_dashboard "/dashboard", metrics: MenuPlannerWeb.Telemetry
 
+    resources "/menus", MenuController, except: [:delete]
     resources "/users", UserController, except: [:delete]
   end
 
@@ -48,6 +49,7 @@ defmodule MenuPlannerWeb.Router do
       pipe_through :token_auth
 
       resources "/meal_services", MealServiceController, except: [:new, :edit, :delete]
+      resources "/menus", MenuController, only: [:index]
       resources "/service_types", ServiceTypeController, only: [:index]
       resources "/users", UserController, except: [:new, :edit, :delete]
     end
