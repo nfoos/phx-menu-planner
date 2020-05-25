@@ -33,10 +33,10 @@ defmodule MenuPlanner.MenusTest do
     end
   end
 
-  describe "get_meal_service/1" do
+  describe "fetch_meal_service/1" do
     test "returns the meal_service with given id" do
       meal_service = insert(:meal_service) |> Menus.preload_meal_services()
-      assert Menus.get_meal_service!(meal_service.id) == meal_service
+      assert Menus.fetch_meal_service(meal_service.id) == {:ok, meal_service}
     end
   end
 
@@ -82,7 +82,7 @@ defmodule MenuPlanner.MenusTest do
     test "with invalid data returns error changeset" do
       meal_service = insert(:meal_service) |> Menus.preload_meal_services()
       assert {:error, %Ecto.Changeset{}} = Menus.update_meal_service(meal_service, @invalid_attrs)
-      assert meal_service == Menus.get_meal_service!(meal_service.id)
+      assert {:ok, meal_service} == Menus.fetch_meal_service(meal_service.id)
     end
 
     test "adds new menu items" do
@@ -105,7 +105,7 @@ defmodule MenuPlanner.MenusTest do
     test "updates existing menu items" do
       menu_item = insert(:menu_item)
       new_name = menu_item.name <> " (updated)"
-      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+      {:ok, meal_service} = Menus.fetch_meal_service(menu_item.meal_service_id)
 
       assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
       refute Repo.get_by(MenuItem, id: menu_item.id, name: new_name)
@@ -121,7 +121,7 @@ defmodule MenuPlanner.MenusTest do
 
     test "deletes menu items" do
       menu_item = insert(:menu_item)
-      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+      {:ok, meal_service} = Menus.fetch_meal_service(menu_item.meal_service_id)
 
       assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
 
