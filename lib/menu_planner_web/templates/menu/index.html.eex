@@ -1,0 +1,30 @@
+<section class="col-md-10 mx-auto">
+  <header class="d-flex justify-content-between align-items-center">
+    <h1>Menu List</h1>
+    <%= link to: Routes.menu_path(@conn, :new), class: "btn btn-outline-primary" do %>
+      <i class="fas fa-plus"></i> New Menu
+    <% end %>
+  </header>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for menu <- @menus do %>
+        <tr>
+          <td><%= menu.name %></td>
+
+          <td class="text-right">
+            <span><%= link "Show", to: Routes.menu_path(@conn, :show, menu), class: "btn btn-link" %></span>
+            <span><%= link "Edit", to: Routes.menu_path(@conn, :edit, menu), class: "btn btn-link" %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

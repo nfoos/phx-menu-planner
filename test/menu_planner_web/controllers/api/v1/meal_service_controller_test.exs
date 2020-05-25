@@ -45,6 +45,14 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceControllerTest do
     end
   end
 
+  describe "show/2" do
+    @tag :authorized_token
+    test "returns 404 when meal service does not exist", %{conn: conn} do
+      conn = get(conn, Routes.api_v1_meal_service_path(conn, :show, 0))
+      assert json_response(conn, 404) == "Not Found"
+    end
+  end
+
   describe "update/2" do
     @tag :authorized_token
     test "renders meal_service when data is valid", %{conn: conn} do

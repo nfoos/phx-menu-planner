@@ -6,11 +6,60 @@ defmodule MenuPlanner.MenusTest do
 
   alias MenuPlanner.Menus.{
     MealService,
+    Menu,
     MenuItem,
     ServiceType
   }
 
-  @invalid_attrs %{date: nil, name: nil, service_type_id: nil}
+  describe "list_menus/0" do
+    test "returns all menus" do
+      menu = insert(:menu)
+      assert Menus.list_menus() == [menu]
+    end
+  end
+
+  describe "get_menu!/1" do
+    test "returns the menu with given id" do
+      menu = insert(:menu)
+      assert Menus.get_menu!(menu.id) == menu
+    end
+  end
+
+  describe "create_menu/1" do
+    test "with valid data creates a menu" do
+      create_params = params_for(:menu)
+      assert {:ok, %Menu{} = menu} = Menus.create_menu(create_params)
+      assert menu.name == create_params.name
+    end
+
+    test "with invalid data returns error changeset" do
+      invalid_attrs = %{name: nil}
+      assert {:error, %Ecto.Changeset{}} = Menus.create_menu(invalid_attrs)
+    end
+  end
+
+  describe "update_menu/2" do
+    test "with valid data updates the menu" do
+      menu = insert(:menu)
+      update_params = params_with_assocs(:menu)
+      assert {:ok, %Menu{} = menu} = Menus.update_menu(menu, update_params)
+      assert menu.name == update_params.name
+    end
+
+    test "with invalid data returns error changeset" do
+      menu = insert(:menu)
+      invalid_attrs = %{name: nil}
+      assert {:error, %Ecto.Changeset{}} = Menus.update_menu(menu, invalid_attrs)
+      assert menu == Menus.get_menu!(menu.id)
+    end
+  end
+
+  describe "change_menu/1" do
+    test "returns a menu changeset" do
+      menu = insert(:menu)
+      assert %Ecto.Changeset{} = Menus.change_menu(menu)
+    end
+  end
 
   describe "create_service_type!/1" do
     test "creates service type if it doesn't exist" do
@@ -33,10 +82,10 @@ defmodule MenuPlanner.MenusTest do
     end
   end
 
-  describe "get_meal_service/1" do
+  describe "fetch_meal_service/1" do
     test "returns the meal_service with given id" do
       meal_service = insert(:meal_service) |> Menus.preload_meal_services()
-      assert Menus.get_meal_service!(meal_service.id) == meal_service
+      assert Menus.fetch_meal_service(meal_service.id) == {:ok, meal_service}
     end
   end
 
@@ -50,7 +99,8 @@ defmodule MenuPlanner.MenusTest do
     end
 
     test "with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Menus.create_meal_service(@invalid_attrs)
+      invalid_attrs = %{date: nil, name: nil, service_type_id: nil}
+      assert {:error, %Ecto.Changeset{}} = Menus.create_meal_service(invalid_attrs)
     end
 
     test "creates menu items" do
@@ -81,8 +131,9 @@ defmodule MenuPlanner.MenusTest do
 
     test "with invalid data returns error changeset" do
       meal_service = insert(:meal_service) |> Menus.preload_meal_services()
-      assert {:error, %Ecto.Changeset{}} = Menus.update_meal_service(meal_service, @invalid_attrs)
-      assert meal_service == Menus.get_meal_service!(meal_service.id)
+      invalid_attrs = %{date: nil, name: nil, service_type_id: nil}
+      assert {:error, %Ecto.Changeset{}} = Menus.update_meal_service(meal_service, invalid_attrs)
+      assert {:ok, meal_service} == Menus.fetch_meal_service(meal_service.id)
     end
 
     test "adds new menu items" do
@@ -105,7 +156,7 @@ defmodule MenuPlanner.MenusTest do
     test "updates existing menu items" do
       menu_item = insert(:menu_item)
       new_name = menu_item.name <> " (updated)"
-      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+      {:ok, meal_service} = Menus.fetch_meal_service(menu_item.meal_service_id)
 
       assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
       refute Repo.get_by(MenuItem, id: menu_item.id, name: new_name)
@@ -121,7 +172,7 @@ defmodule MenuPlanner.MenusTest do
 
     test "deletes menu items" do
       menu_item = insert(:menu_item)
-      meal_service = Menus.get_meal_service!(menu_item.meal_service_id)
+      {:ok, meal_service} = Menus.fetch_meal_service(menu_item.meal_service_id)
 
       assert Repo.get_by(MenuItem, id: menu_item.id, name: menu_item.name)
 

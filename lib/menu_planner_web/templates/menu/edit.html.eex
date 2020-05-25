@@ -1,0 +1,10 @@
+<section class="col-md-10 mx-auto">
+  <header class="d-flex justify-content-between align-items-center">
+    <h1>Edit Menu</h1>
+    <%= link to: Routes.menu_path(@conn, :index), class: "btn btn-link text-secondary" do %>
+      <i class="fas fa-arrow-left"></i> Back To Menus
+    <% end %>
+  </header>
+
+  <%= render "form.html", Map.put(assigns, :action, Routes.menu_path(@conn, :update, @menu)) %>
+</section>

@@ -13,13 +13,6 @@ defmodule MenuPlanner.Accounts do
 
   def get_user!(id), do: Repo.get!(User, id)
 
-  def fetch_user(id) do
-    case get_user(id) do
-      nil -> {:error, :not_found}
-      user -> {:ok, user}
-    end
-  end
-
   def get_user_by(params) do
     Repo.get_by(User, params)
   end
