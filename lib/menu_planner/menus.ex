@@ -3,7 +3,37 @@ defmodule MenuPlanner.Menus do
   import Ecto.Query, warn: false
   alias MenuPlanner.Repo
 
-  alias MenuPlanner.Menus.{MealService, ServiceType}
+  alias MenuPlanner.Menus.{
+    MealService,
+    Menu,
+    ServiceType
+  }
+
+  # Menu
+
+  def list_menus do
+    Repo.all(Menu)
+  end
+
+  def get_menu!(id), do: Repo.get!(Menu, id)
+
+  def create_menu(attrs \\ %{}) do
+    %Menu{}
+    |> Menu.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_menu(%Menu{} = menu, attrs) do
+    menu
+    |> Menu.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_menu(%Menu{} = menu, attrs \\ %{}) do
+    Menu.changeset(menu, attrs)
+  end
+
+  # ServiceType
 
   def create_service_type!(name) do
     Repo.insert!(%ServiceType{name: name}, on_conflict: :nothing)
@@ -13,6 +43,8 @@ defmodule MenuPlanner.Menus do
     ServiceType
     |> Repo.all()
   end
+
+  # MealService
 
   def list_meal_services do
     MealService
@@ -29,7 +61,7 @@ defmodule MenuPlanner.Menus do
 
   def preload_meal_services(meal_services) do
     meal_services
-    |> Repo.preload([:service_type, :menu_items])
+    |> Repo.preload([:menu, :service_type, :menu_items])
   end
 
   def create_meal_service(attrs \\ %{}) do
