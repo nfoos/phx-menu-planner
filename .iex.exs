@@ -1,4 +1,4 @@
 import Ecto.Query
-alias MenuPlanner.Repo
-alias MenuPlanner.Accounts
-alias MenuPlanner.Accounts.User
+alias MenuPlanner.{Repo, Accounts, Menus}
+alias Accounts.User
+alias Menus.{Menu, MealService, ServiceType, MenuItem}
