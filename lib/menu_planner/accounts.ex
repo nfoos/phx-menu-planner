@@ -1,6 +1,5 @@
 defmodule MenuPlanner.Accounts do
   @moduledoc false
-  import Ecto.Query, warn: false
   alias MenuPlanner.Repo
 
   alias MenuPlanner.Accounts.User

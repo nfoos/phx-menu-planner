@@ -1,6 +1,5 @@
 defmodule MenuPlanner.Menus do
   @moduledoc false
-  import Ecto.Query, warn: false
   alias MenuPlanner.Repo
 
   alias MenuPlanner.Menus.{
