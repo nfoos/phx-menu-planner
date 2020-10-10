@@ -4,6 +4,8 @@ RUN set -ex && \
   apk update && \
   apk upgrade && \
   apk add --no-cache \
+    bash \
+    git \
     inotify-tools \
     nodejs-npm
 
@@ -11,14 +13,19 @@ RUN mix local.hex --force \
   && mix local.rebar --force \
   && mix archive.install --force hex phx_new 1.5.0
 
-WORKDIR /app
-COPY mix.exs mix.lock ./
-RUN mix do deps.get, deps.compile
+ENV APP_DIR=/app
+WORKDIR $APP_DIR
 
-COPY assets/ /app/assets
-RUN cd assets && npm install && node node_modules/webpack/bin/webpack.js --mode development
+COPY mix.exs mix.lock $APP_DIR/
+RUN mix deps.get
 
-COPY . /app
+COPY config/ $APP_DIR/config
+RUN mix deps.compile
+
+COPY assets/ $APP_DIR/assets
+RUN cd $APP_DIR/assets && npm install && node node_modules/webpack/bin/webpack.js --mode development
+
+COPY . $APP_DIR/
 RUN mix compile
 
 CMD ["mix", "phx.server"]

@@ -67,7 +67,8 @@ defmodule MenuPlanner.MixProject do
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.3", only: :test},
-      {:ex_json_schema, "~> 0.7", only: :test}
+      {:ex_json_schema, "~> 0.7", only: :test},
+      {:mix_audit, "~> 0.1", only: [:dev, :test], runtime: false}
     ]
   end
 
