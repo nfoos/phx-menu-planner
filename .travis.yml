@@ -26,6 +26,8 @@ before_script:
   - mix do ecto.create, ecto.migrate
 
 script:
+  - mix hex.outdated || true
+  - mix deps.audit
   - mix credo --strict
   - mix format --check-formatted
   - mix coveralls.json
