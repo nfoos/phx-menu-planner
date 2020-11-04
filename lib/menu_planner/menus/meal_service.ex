@@ -26,4 +26,5 @@ defmodule MenuPlanner.Menus.MealService do
     |> foreign_key_constraint(:service_type_id)
     |> foreign_key_constraint(:menu_id)
   end
+  # TODO: separate changeset for update
 end

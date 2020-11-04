@@ -7,6 +7,7 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
 
   action_fallback MenuPlannerWeb.FallbackController
 
+  # TODO: remove nested menu from index?
   def swagger_definitions do
     # coveralls-ignore-start
     %{
@@ -117,7 +118,9 @@ defmodule MenuPlannerWeb.Api.V1.MealServiceController do
     # coveralls-ignore-stop
   end
 
-  def index(conn, _params) do
+  # TODO: validate that menu exists and filter
+  # XXX: move this functionality to the menu controller instead
+  def index(conn, %{"menu_id" => _menu_id}) do
     meal_services = Menus.list_meal_services()
     render(conn, "index.json", meal_services: meal_services)
   end
